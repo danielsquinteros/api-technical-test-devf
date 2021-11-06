@@ -40,9 +40,10 @@ module.exports = {
   },
   activate: async (req, res) => {
     const { id } = req.params;
+    const userAuthenticated = req.user;
     try {
       const type = await Type.findByIdAndUpdate(id, { status: true }, { new: true });
-      res.status(200).send(type);
+      res.status(200).json({ type, userAuthenticated });
     } catch (error) {
       res.status(409).send(error);
     }
