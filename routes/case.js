@@ -26,6 +26,12 @@ router.get('/case/:id', [
   validateFields,
 ], caseController.getId);
 
+router.get('/cases/user/:userid', [
+  check('userid', 'Is not ID valid').isMongoId(),
+  check('userid').custom(existUserId),
+  validateFields,
+], caseController.getUserId);
+
 router.put('/case/:id', [
   check(['id'], 'Is not ID valid').isMongoId(),
   check('id').custom(existCaseId),
@@ -44,5 +50,12 @@ router.patch('/case/:id', [
   check('id').custom(existCaseId),
   validateFields,
 ], caseController.active);
+
+router.put('/case/user/:id', [
+  check(['id'], 'Is not ID valid').isMongoId(),
+  check('id').custom(existCaseId),
+  check('user').custom(maxCaseUserId),
+  validateFields,
+], caseController.updateOnlyUser);
 
 module.exports = router;

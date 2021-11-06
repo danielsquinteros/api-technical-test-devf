@@ -33,6 +33,15 @@ module.exports = {
       res.status(409).send(error);
     }
   },
+  getUserId: async (req, res) => {
+    const { userid } = req.params;
+    try {
+      const userCases = await Case.find({ userid }).populate(['type', 'user', 'state']);
+      res.status(200).send(userCases);
+    } catch (error) {
+      res.status(409).send(error);
+    }
+  },
   updateWithId: async (req, res) => {
     const { id } = req.params;
     const {
@@ -45,6 +54,20 @@ module.exports = {
         new: true,
       });
       res.status(200).send(updateCase);
+    } catch (error) {
+      res.status(409).send(error);
+    }
+  },
+  updateOnlyUser: async (req, res) => {
+    const { id } = req.params;
+    const { user } = req.body;
+    try {
+      const updateUserCase = await Case.findByIdAndUpdate(id, {
+        user,
+      }, {
+        new: true,
+      });
+      res.status(200).send(updateUserCase);
     } catch (error) {
       res.status(409).send(error);
     }
