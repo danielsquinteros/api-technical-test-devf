@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 // Directorio Público
 app.use(express.static('public'));
+app.use('/api/v1', require('./routes/auth'));
 app.use('/api/v1', require('./routes/state'));
 app.use('/api/v1', require('./routes/type'));
 app.use('/api/v1', require('./routes/user'));
@@ -21,10 +22,6 @@ app.use('/api/v1', require('./routes/case'));
 
 // Conexión Base de Datos
 dbConnection();
-
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
 
 app.listen(port, () => {
   /* eslint no-console: "off" */
