@@ -1,4 +1,6 @@
-const { User, Type, State } = require('../models');
+const {
+  User, Type, State, Case,
+} = require('../models');
 
 const emailExist = async (email = '') => {
   const existEmail = await User.findOne({ email });
@@ -25,9 +27,23 @@ const existStateId = async (id = '') => {
   }
 };
 
+const maxCaseUserId = async (user = '') => {
+  const caseUserId = await Case.find({ user });
+  let countCase = 0;
+  caseUserId.forEach((element) => {
+    if (element.status === true) {
+      countCase += 1;
+    }
+  });
+  if (countCase >= 5) {
+    throw new Error(`The user ${user} has more than ${countCase} active cases`);
+  }
+};
+
 module.exports = {
   emailExist,
   existUserId,
   existTypeId,
   existStateId,
+  maxCaseUserId,
 };

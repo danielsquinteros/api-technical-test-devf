@@ -3,7 +3,9 @@ const { check } = require('express-validator');
 
 const caseController = require('../controllers/caseController');
 const { validateFields } = require('../middlewares/validate-fields');
-const { existUserId, existStateId, existTypeId } = require('../helpers/db-validators');
+const {
+  existUserId, existStateId, existTypeId, maxCaseUserId,
+} = require('../helpers/db-validators');
 
 const router = Router();
 
@@ -12,6 +14,7 @@ router.post('/case/create', [
   check('user').custom(existUserId),
   check('state').custom(existStateId),
   check('type').custom(existTypeId),
+  check('user').custom(maxCaseUserId),
   validateFields,
 ], caseController.create);
 
