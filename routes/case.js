@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const caseController = require('../controllers/caseController');
 const { validateFields } = require('../middlewares/validate-fields');
 const {
-  existUserId, existStateId, existTypeId, maxCaseUserId,
+  existUserId, existStateId, existTypeId, maxCaseUserId, existCaseId,
 } = require('../helpers/db-validators');
 
 const router = Router();
@@ -19,6 +19,30 @@ router.post('/case/create', [
 ], caseController.create);
 
 router.get('/cases/', caseController.getAll);
-// router.put('/state/:id', caseController.updateWithId);
+
+router.get('/case/:id', [
+  check('id', 'Is not ID valid').isMongoId(),
+  check('id').custom(existCaseId),
+  validateFields,
+], caseController.getId);
+
+router.put('/case/:id', [
+  check(['id'], 'Is not ID valid').isMongoId(),
+  check('id').custom(existCaseId),
+  check('user').custom(maxCaseUserId),
+  validateFields,
+], caseController.updateWithId);
+
+router.delete('/case/:id', [
+  check(['id'], 'Is not ID valid').isMongoId(),
+  check('id').custom(existCaseId),
+  validateFields,
+], caseController.delete);
+
+router.patch('/case/:id', [
+  check(['id'], 'Is not ID valid').isMongoId(),
+  check('id').custom(existCaseId),
+  validateFields,
+], caseController.active);
 
 module.exports = router;

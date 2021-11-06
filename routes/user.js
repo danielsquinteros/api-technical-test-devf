@@ -23,6 +23,9 @@ router.put('/user/:id', [
 ], userController.updateWithId);
 
 router.get('/users', userController.getAll);
+
+router.get('/user/:id', userController.getId);
+
 // router.delete('/type/:id', userController.delete);
 // router.patch('/type/:id', userController.activate);
 

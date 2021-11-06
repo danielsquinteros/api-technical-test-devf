@@ -24,4 +24,55 @@ module.exports = {
       res.status(409).send(error);
     }
   },
+  getId: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const idCase = await Case.findById(id).populate(['type', 'user', 'state']);
+      res.status(200).send(idCase);
+    } catch (error) {
+      res.status(409).send(error);
+    }
+  },
+  updateWithId: async (req, res) => {
+    const { id } = req.params;
+    const {
+      user, type, state, title, description, student, date_started,
+    } = req.body;
+    try {
+      const updateCase = await Case.findByIdAndUpdate(id, {
+        user, type, state, title, description, student, date_started,
+      }, {
+        new: true,
+      });
+      res.status(200).send(updateCase);
+    } catch (error) {
+      res.status(409).send(error);
+    }
+  },
+  delete: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const deleteCase = await Case.findByIdAndUpdate(id, {
+        status: false,
+      }, {
+        new: true,
+      });
+      res.status(200).send(deleteCase);
+    } catch (error) {
+      res.status(409).send(error);
+    }
+  },
+  active: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const activeCase = await Case.findByIdAndUpdate(id, {
+        status: true,
+      }, {
+        new: true,
+      });
+      res.status(200).send(activeCase);
+    } catch (error) {
+      res.status(409).send(error);
+    }
+  },
 };

@@ -14,6 +14,12 @@ const existUserId = async (id = '') => {
     throw new Error(`The id ${id} not is registrer in User`);
   }
 };
+const existCaseId = async (id = '') => {
+  const existCase = await Case.findById(id);
+  if (!existCase) {
+    throw new Error(`The id ${id} not is registrer in Case`);
+  }
+};
 const existTypeId = async (id = '') => {
   const existType = await Type.findById(id);
   if (!existType) {
@@ -43,6 +49,7 @@ const maxCaseUserId = async (user = '') => {
 module.exports = {
   emailExist,
   existUserId,
+  existCaseId,
   existTypeId,
   existStateId,
   maxCaseUserId,

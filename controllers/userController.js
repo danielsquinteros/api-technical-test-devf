@@ -31,6 +31,15 @@ module.exports = {
       res.status(409).send(error);
     }
   },
+  getId: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const user = await User.findById(id);
+      res.status(200).send(user);
+    } catch (error) {
+      res.status(409).send(error);
+    }
+  },
   updateWithId: async (req, res) => {
     const { id } = req.params;
     // El email no lo puede actualizar por eso lo desestructuro
