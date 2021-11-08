@@ -3,11 +3,16 @@ const { check } = require('express-validator');
 
 const userController = require('../controllers/userController');
 const { emailExist, existUserId } = require('../helpers/db-validators');
-const { validateFields } = require('../middlewares/validate-fields');
+
+const {
+  validateFields, validateJWT, isAdminRole,
+} = require('../middlewares');
 
 const router = Router();
 
 router.post('/user/create', [
+  validateJWT,
+  isAdminRole,
   check('name', 'The name is required').not().isEmpty(),
   check('password', 'The password must have a mininum of 6 characters').isLength({ min: 6 }),
   check('role', 'Is not role valid').isIn(['ADMIN_ROLE', 'USER_ROLE']),
@@ -17,14 +22,22 @@ router.post('/user/create', [
 ], userController.create);
 
 router.put('/user/:id', [
+  validateJWT,
+  isAdminRole,
   check('id', 'Is not ID valid').isMongoId(),
   check('id').custom(existUserId),
   validateFields,
 ], userController.updateWithId);
 
-router.get('/users', userController.getAll);
+router.get('/users', [
+  validateJWT,
+  isAdminRole,
+], userController.getAll);
 
-router.get('/user/:id', userController.getId);
+router.get('/user/:id', [
+  validateJWT,
+  isAdminRole,
+], userController.getId);
 
 // router.delete('/type/:id', userController.delete);
 // router.patch('/type/:id', userController.activate);
