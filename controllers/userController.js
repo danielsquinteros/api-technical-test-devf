@@ -42,8 +42,7 @@ module.exports = {
   },
   updateWithId: async (req, res) => {
     const { id } = req.params;
-    // El email no lo puede actualizar por eso lo desestructuro
-    const { password, email, ...restoDatos } = req.body;
+    const { password, ...restoDatos } = req.body;
     // Encripto la contraseña
     if (password) {
       // Encriptar la contraseña

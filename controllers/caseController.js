@@ -18,7 +18,7 @@ module.exports = {
   },
   getAll: async (req, res) => {
     try {
-      const cases = await Case.find().populate(['type', 'user', 'state']);
+      const cases = await Case.find({ status: true }).populate(['type', 'user', 'state']);
       res.status(200).send(cases);
     } catch (error) {
       res.status(409).send(error);

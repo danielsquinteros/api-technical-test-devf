@@ -26,17 +26,19 @@ router.put('/user/:id', [
   isAdminRole,
   check('id', 'Is not ID valid').isMongoId(),
   check('id').custom(existUserId),
+  check('name', 'The name is required').not().isEmpty(),
+  check('password', 'The password must have a mininum of 6 characters').isLength({ min: 6 }),
+  check('role', 'Is not role valid').isIn(['ADMIN_ROLE', 'USER_ROLE']),
+  check('email', 'The email is not valid').isEmail(),
   validateFields,
 ], userController.updateWithId);
 
 router.get('/users', [
   validateJWT,
-  isAdminRole,
 ], userController.getAll);
 
 router.get('/user/:id', [
   validateJWT,
-  isAdminRole,
 ], userController.getId);
 
 // router.delete('/type/:id', userController.delete);

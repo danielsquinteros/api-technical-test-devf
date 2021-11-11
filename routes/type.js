@@ -12,7 +12,6 @@ router.post('/type/create', [
 
 router.get('/types/', [
   validateJWT,
-  isAdminRole,
 ], typeController.getAll);
 
 router.put('/type/:id', [

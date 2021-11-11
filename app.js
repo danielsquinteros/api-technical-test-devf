@@ -6,7 +6,6 @@ const cors = require('cors');
 const dbConnection = require('./database/config');
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 // Middlewares
 app.use(cors());
@@ -23,9 +22,13 @@ app.use('/api/v1', require('./routes/case'));
 // Conexión Base de Datos
 dbConnection();
 
-app.listen(port, () => {
+// Puerto de sevidor local
+app.set('host', process.env.HOST || '0.0.0.0');
+app.set('port', process.env.PORT || 3000);
+
+app.listen(app.get('port'), app.get('host'), () => {
   /* eslint no-console: "off" */
-  console.log(`Aplicación en el puerto http://localhost:${port}`);
+  console.log(`server on port ${app.get('port')} ${app.get('host')}`);
 });
 
 module.exports = app;

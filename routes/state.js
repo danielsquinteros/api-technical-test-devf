@@ -12,7 +12,6 @@ router.post('/state/create', [
 
 router.get('/states/', [
   validateJWT,
-  isAdminRole,
 ], stateController.getAll);
 
 router.put('/state/:id', [
