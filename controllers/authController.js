@@ -27,7 +27,7 @@ module.exports = {
         });
       }
       // Generate JWT
-      const token = await generateJWT(user.id);
+      const token = await generateJWT(user.id, user.role);
 
       return res.json({
         token,

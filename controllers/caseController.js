@@ -36,7 +36,7 @@ module.exports = {
   getUserId: async (req, res) => {
     const { userid } = req.params;
     try {
-      const userCases = await Case.find({ userid }).populate(['type', 'user', 'state']);
+      const userCases = await Case.find({ user: userid, status: true }).populate(['type', 'user', 'state']);
       res.status(200).send(userCases);
     } catch (error) {
       res.status(409).send(error);
